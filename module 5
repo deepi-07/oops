@@ -1,0 +1,36 @@
+package banking;
+import javax.swing.*;
+import java.awt.event.*;
+
+public class mod5 {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Online Banking Simulation");
+        JLabel l1 = new JLabel("From Account:");
+        JTextField t1 = new JTextField(15);
+        JLabel l2 = new JLabel("Amount:");
+        JTextField t2 = new JTextField(10);
+        JButton btn = new JButton("Transfer Funds");
+        JTextArea area = new JTextArea(5, 20);
+
+        JPanel panel = new JPanel();
+        panel.add(l1); panel.add(t1);
+        panel.add(l2); panel.add(t2);
+        panel.add(btn);
+        panel.add(new JScrollPane(area));
+
+        btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String fromAcc = t1.getText();
+                double amt = Double.parseDouble(t2.getText());
+                double fee = 10.0; // dummy fee
+                double total = amt + fee;
+                area.setText("From: " + fromAcc + "\nAmount: ₹" + amt + "\nFee: ₹" + fee + "\nTotal Deducted: ₹" + total);
+            }
+        });
+
+        frame.add(panel);
+        frame.setSize(350, 300);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+}
