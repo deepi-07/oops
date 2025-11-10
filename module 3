@@ -1,0 +1,39 @@
+package banking;
+import java.util.*;
+
+class GenericTransactionLog<T> {
+    private List<T> logs = new ArrayList<>();
+
+    public synchronized void addLog(T log) {
+        logs.add(log);
+        System.out.println("Added log: " + log);
+    }
+
+    public synchronized List<T> getLogs() {
+        return logs;
+    }
+}
+
+class BalanceUpdater extends Thread {
+    private GenericTransactionLog<String> log;
+    private String entry;
+
+    public BalanceUpdater(GenericTransactionLog<String> log, String entry) {
+        this.log = log;
+        this.entry = entry;
+    }
+
+    public void run() {
+        log.addLog(entry);
+    }
+}
+
+public class mod3 {
+    public static void main(String[] args) {
+        GenericTransactionLog<String> log = new GenericTransactionLog<>();
+        Thread t1 = new BalanceUpdater(log, "Deposit ₹500");
+        Thread t2 = new BalanceUpdater(log, "Withdraw ₹200");
+        t1.start();
+        t2.start();
+    }
+}
