@@ -1,0 +1,61 @@
+package banking;
+
+abstract class Account {
+    protected String accountNumber;
+    protected double balance;
+
+    public Account(String accountNumber, double balance) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+    }
+
+    public abstract void displayDetails();
+
+    public double getBalance() { return balance; }
+}
+
+class SavingsAccount extends Account {
+    private double interestRate;
+
+    public SavingsAccount(String accountNumber, double balance, double interestRate) {
+        super(accountNumber, balance);
+        this.interestRate = interestRate;
+    }
+
+    @Override
+    public void displayDetails() {
+        System.out.println("SavingsAccount: " + accountNumber + " | Balance: ₹" + balance + " | Interest: " + interestRate + "%");
+    }
+}
+
+class CurrentAccount extends Account {
+    private double overdraftLimit;
+
+    public CurrentAccount(String accountNumber, double balance, double overdraftLimit) {
+        super(accountNumber, balance);
+        this.overdraftLimit = overdraftLimit;
+    }
+
+    @Override
+    public void displayDetails() {
+        System.out.println("CurrentAccount: " + accountNumber + " | Balance: ₹" + balance + " | Overdraft: ₹" + overdraftLimit);
+    }
+}
+
+class Customer {
+    private String name;
+    public Customer(String name) { this.name = name; }
+    public String getName() { return name; }
+}
+
+public class mod1 {
+    public static void main(String[] args) {
+        Account a1 = new SavingsAccount("ACC001", 5000.0, 4.5);
+        Account a2 = new CurrentAccount("ACC002", 10000.0, 2000.0);
+        a1.displayDetails();
+        a2.displayDetails();
+
+        Customer c1 = new Customer("Bob");
+        System.out.println("Customer: " + c1.getName());
+    }
+}
