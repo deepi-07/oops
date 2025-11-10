@@ -1,0 +1,47 @@
+package banking;
+import java.io.*;
+
+class InsufficientFundsException extends Exception {
+    public InsufficientFundsException(String msg) { super(msg); }
+}
+
+class Transaction {
+    private Account fromAccount;
+    private double amount;
+
+    public Transaction(Account fromAccount, double amount) {
+        this.fromAccount = fromAccount;
+        this.amount = amount;
+    }
+
+    public double processTransfer() throws InsufficientFundsException {
+        if (amount > fromAccount.getBalance()) {
+            throw new InsufficientFundsException("Insufficient funds!");
+        }
+        fromAccount.balance -= amount;
+        return amount;
+    }
+
+    public void saveTransactionToFile(double transferredAmount) {
+        try (FileWriter fw = new FileWriter("transaction_log.txt", true)) {
+            fw.write("Transfer: ₹" + transferredAmount + " from " + fromAccount.accountNumber + "\n");
+            System.out.println("Transaction logged to transaction_log.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+public class mod2 {
+    public static void main(String[] args) {
+        try {
+            SavingsAccount acc = new SavingsAccount("ACC001", 5000.0, 4.5);
+            Transaction t = new Transaction(acc, 1000.0);
+            double transferred = t.processTransfer();
+            System.out.println("Transferred: ₹" + transferred);
+            t.saveTransactionToFile(transferred);
+        } catch (InsufficientFundsException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
