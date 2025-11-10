@@ -1,0 +1,21 @@
+package banking;
+import java.io.*;
+import java.net.*;
+
+public class mod4_server {
+    public static void main(String[] args) throws Exception {
+        ServerSocket ss = new ServerSocket(6000);
+        System.out.println("Banking Server started...");
+        Socket s = ss.accept();
+        BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+        PrintWriter out = new PrintWriter(s.getOutputStream(), true);
+
+        out.println("Welcome to Online Banking!");
+        String transferReq = in.readLine();
+        System.out.println("Transfer request received: " + transferReq);
+        out.println("Transfer processed: " + transferReq);
+
+        s.close();
+        ss.close();
+    }
+}
